@@ -1,0 +1,46 @@
+[
+  {
+    "id": "1",
+    "name": "src",
+    "isFolder": true,
+    "children": [
+      {
+        "id": "5",
+        "name": "App.tsx",
+        "isFolder": false
+      },
+      {
+        "id": "6",
+        "name": "components",
+        "isFolder": true,
+        "children": [
+          {
+            "id": "10",
+            "name": "file.tsx",
+            "isFolder": false
+          }
+        ]
+      },
+      {
+        "id": "7",
+        "name": "main.tsx",
+        "isFolder": false
+      }
+    ]
+  },
+  {
+    "id": "2",
+    "name": "index.html",
+    "isFolder": false
+  },
+  {
+    "id": "3",
+    "name": "style.css",
+    "isFolder": false
+  },
+  {
+    "id": "4",
+    "name": "script.js",
+    "isFolder": false
+  }
+]

@@ -1,0 +1,12 @@
+.list {
+  padding-left: 15px;
+  cursor: pointer;
+}
+
+.add-icon,
+.delete-icon {
+  height: 15px;
+  width: 15px;
+  margin-left: 5px;
+  vertical-align: middle;
+}
