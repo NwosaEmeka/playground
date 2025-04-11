@@ -454,3 +454,37 @@ const maxArea = (arr) => {
 };
 
 console.log(maxArea([1, 8, 6, 2, 5, 4, 8, 3, 7])); // Output: 49
+
+// Given an unsorted array of integers nums,return the length of the longest continuous increasing subsequence (ie suarray). the subsequence must be strictly increasing
+// Google phone interview
+const longestIncreasingSubsequence = (nums) => {
+  let max = 0;
+  let result = 0;
+
+  for (let i = 0; i < nums.length; i++) {
+    // let j = i + 1;
+    // let count = 1;
+
+    // while (j < nums.length && nums[j - 1] < nums[j]) {
+    //   count++;
+    //   j++;
+    //   max = Math.max(max, count);
+    // }
+
+    // More efficient solution of On
+    if (i === 0 || nums[i] <= nums[i - 1]) {
+      max = 1;
+    } else {
+      max++;
+    }
+
+    result = Math.max(max, result);
+  }
+
+  return result;
+};
+console.log(longestIncreasingSubsequence([1, 3, 5, 4, 7]));
+console.log(longestIncreasingSubsequence([0, 1, 0, 3, 2, 3]));
+console.log(longestIncreasingSubsequence([7, 7, 7, 7, 7]));
+console.log(longestIncreasingSubsequence([1, 2, 3, 4, 5]));
+console.log(longestIncreasingSubsequence([1, 3, 6, 7, 9, 4, 10, 5, 6]));
