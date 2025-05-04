@@ -368,9 +368,10 @@ const lengthOfLongestSubstring = (str) => {
 
   for (let right = 0; right < str.length; right++) {
     while (strSet.has(str[right])) {
-      strSet.deq(str[left]);
+      strSet.delete(str[left]);
       left++;
     }
+    strSet.add(str[right]);
     max = Math.max(max, right - left + 1);
   }
 

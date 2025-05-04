@@ -2,7 +2,8 @@ import { useState, useEffect, useRef } from "react";
 import "./App.css";
 
 function App() {
-  const [nums, setNums] = useState(Array(5).fill(""));
+  const LENGTH = 5;
+  const [otp, setOtp] = useState(Array(LENGTH).fill(""));
   const [isAllNumsFilled, setIsAllNumsFilled] = useState(false);
 
   const inputRef = useRef<(HTMLInputElement | null)[]>([]);
@@ -11,46 +12,70 @@ function App() {
     inputRef.current[0]?.focus();
   }, []);
 
-  useEffect(() => {
-    const allFilled = nums.every((num) => num !== "");
-    setIsAllNumsFilled(allFilled);
-  }, [nums]);
-
   const handleOnChange = (value: string, index: number) => {
-    if (isNaN(Number(value))) return;
-    const newNums = [...nums];
-    newNums[index] = value.slice(-1);
+    if (!/^\d?$/.test(value)) return;
+    const newOtp = [...otp];
+    newOtp[index] = value;
 
-    if (index < nums.length - 1 && newNums[index] !== "") {
+    setOtp(newOtp);
+
+    if (index < LENGTH - 1 && value) {
       inputRef.current[index + 1]?.focus();
     }
 
-    setNums(newNums);
+    setIsAllNumsFilled(newOtp.every((num) => num !== ""));
   };
 
   const handleBackSpace = (
     e: React.KeyboardEvent<HTMLInputElement>,
     index: number
   ) => {
-    if (e.key === "Backspace" && nums[index] === "") {
+    if (e.key === "Backspace" && index > 0 && !otp[index]) {
       inputRef.current[index - 1]?.focus();
     }
   };
 
+  const handleOnPaste = (e: React.ClipboardEvent<HTMLDivElement>) => {
+    e.preventDefault();
+
+    const pasted = e.clipboardData
+      .getData("text")
+      .replace(/\D/g, "")
+      .slice(0, LENGTH);
+    if (!pasted) return;
+
+    const newOtp = [...otp];
+
+    for (let i = 0; i < pasted.length; i++) {
+      newOtp[i] = pasted[i];
+      const input = inputRef.current[i];
+      if (input) {
+        input.value = pasted[i];
+      }
+    }
+
+    const nextIndex = pasted.length < LENGTH ? pasted.length : LENGTH - 1;
+    inputRef.current[nextIndex]?.focus();
+    setOtp(newOtp);
+    setIsAllNumsFilled(newOtp.every((num) => num !== ""));
+  };
+
   return (
     <div>
-      <div className="input-wrapper">
-        {nums.map((num, index) => (
+      <div className="input-wrapper" onPaste={handleOnPaste}>
+        {otp.map((num, index) => (
           <input
             key={index}
             className="input"
             type="text"
             value={num}
+            maxLength={1}
+            inputMode="numeric"
             ref={(el) => {
               if (el) inputRef.current[index] = el;
             }}
             onChange={(e) => handleOnChange(e.target.value.trim(), index)}
-            onKeyUp={(e) => handleBackSpace(e, index)}
+            onKeyDown={(e) => handleBackSpace(e, index)}
           />
         ))}
       </div>
